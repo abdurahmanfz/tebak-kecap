@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  tebak-kecap-sunda:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tebak-kecap-sunda
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "com.tebak-kecap.description=Sundanese word guessing game"
+      - "com.tebak-kecap.version=1.0.0"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - tebak-kecap-network
+
+networks:
+  tebak-kecap-network:
+    driver: bridge
