@@ -120,6 +120,13 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       };
     }
 
+    case GameActionType.TOGGLE_VIRTUAL_KEYBOARD: {
+      return {
+        ...state,
+        showVirtualKeyboard: !state.showVirtualKeyboard,
+      };
+    }
+
     default:
       return state;
   }

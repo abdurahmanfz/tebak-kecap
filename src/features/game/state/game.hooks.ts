@@ -140,6 +140,12 @@ export function useGameActions() {
     });
   }, [dispatch]);
 
+  const toggleVirtualKeyboard = useCallback(() => {
+    dispatch({
+      type: GameActionType.TOGGLE_VIRTUAL_KEYBOARD,
+    });
+  }, [dispatch]);
+
   return {
     startRound,
     endRound,
@@ -148,6 +154,7 @@ export function useGameActions() {
     guessLetter,
     useHint,
     toggleMute,
+    toggleVirtualKeyboard,
   };
 }
 

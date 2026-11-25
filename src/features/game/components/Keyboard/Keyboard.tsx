@@ -44,7 +44,7 @@ export function Keyboard() {
   };
 
   const getLetterStyles = (state: LetterState, isDisabled: boolean) => {
-    const baseStyles = "relative w-7 sm:w-9 h-10 sm:h-12 rounded-lg font-bold text-sm sm:text-base transition-all duration-200";
+    const baseStyles = "relative w-8 h-11 sm:w-9 sm:h-12 md:w-10 md:h-13 rounded-lg font-bold text-sm sm:text-base transition-all duration-200 touch-manipulation active:scale-95";
     
     if (isDisabled) {
       return `${baseStyles} opacity-40 cursor-not-allowed bg-amber-900/20 text-amber-600 border border-amber-800/30`;
@@ -58,7 +58,7 @@ export function Keyboard() {
         return `${baseStyles} bg-gradient-to-br from-rose-600 to-rose-800 text-rose-50 border border-rose-400/30 shadow-lg shadow-rose-900/30`;
       
       case 'unused':
-        return `${baseStyles} bamboo-card text-amber-200 hover:border-amber-400/60 hover:bg-amber-800/30 cursor-pointer active:scale-95`;
+        return `${baseStyles} bamboo-card text-amber-200 hover:border-amber-400/60 hover:bg-amber-800/30 cursor-pointer`;
       
       default:
         return baseStyles;
@@ -70,12 +70,12 @@ export function Keyboard() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-4">
-      <div className="flex flex-col items-center gap-2">
+    <div className="w-full max-w-4xl mx-auto px-2 sm:px-4 py-4">
+      <div className="flex flex-col items-center gap-1.5 sm:gap-2">
         {KEYBOARD_ROWS.map((row, rowIndex) => (
           <div 
             key={`row-${rowIndex}`} 
-            className="flex gap-1 sm:gap-2 justify-center"
+            className="flex gap-1 sm:gap-1.5 md:gap-2 justify-center"
           >
             {row.map((letter) => {
               const state = getLetterState(letter);

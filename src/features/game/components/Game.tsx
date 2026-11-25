@@ -35,6 +35,7 @@ export function Game() {
     selectedCategory,
     isMuted,
     correctCombo,
+    showVirtualKeyboard,
   } = gameState;
 
   const { startRound, endRound } = useGameActions();
@@ -123,11 +124,11 @@ export function Game() {
   }, [selectedCategory]);
 
   /**
-   * Enable keyboard input
+   * Enable keyboard input only when virtual keyboard is off
    */
   useKeyboardInput({ 
     onNextRound: startNewRound,
-    enabled: true,
+    enabled: !showVirtualKeyboard,
   });
 
   // Loading state
@@ -217,7 +218,20 @@ export function Game() {
         </AnimatePresence>
 
         {/* On-Screen Keyboard */}
-        <Keyboard />
+        {showVirtualKeyboard && <Keyboard />}
+
+        {/* Keyboard Mode Hint */}
+        {!showVirtualKeyboard && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full max-w-4xl mx-auto px-4 py-2"
+          >
+            <p className="text-center text-xs sm:text-sm text-amber-200/50">
+              ⌨️ Mode Keyboard Fisik Aktif - Paké tombol A-Z, Enter pikeun hint, Space pikeun babak salajengna
+            </p>
+          </motion.div>
+        )}
 
         {/* Result Modal */}
         <ResultModal onNextRound={startNewRound} />

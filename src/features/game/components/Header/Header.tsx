@@ -11,8 +11,8 @@ import { useGameState, useGameActions } from '../../state';
 import { useBambooAudio } from '../../hooks';
 
 export function Header() {
-  const { score, streak, isMuted } = useGameState();
-  const { toggleMute } = useGameActions();
+  const { score, streak, isMuted, showVirtualKeyboard } = useGameState();
+  const { toggleMute, toggleVirtualKeyboard } = useGameActions();
   const audio = useBambooAudio({ muted: isMuted });
 
   const handleToggleMute = () => {
@@ -21,6 +21,11 @@ export function Header() {
     if (isMuted) {
       setTimeout(() => audio.playClick(), 100);
     }
+  };
+
+  const handleToggleKeyboard = () => {
+    audio.playClick();
+    toggleVirtualKeyboard();
   };
 
   return (
@@ -56,7 +61,7 @@ export function Header() {
         </div>
 
         {/* Score & Streak Stats */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <Card bamboo padding="sm" className="flex items-center gap-3 sm:gap-4">
             <div className="text-center">
               <div className="text-[10px] uppercase tracking-wider text-amber-300/60 font-bold">
@@ -79,26 +84,58 @@ export function Header() {
             </div>
           </Card>
 
-          {/* Sound Toggle */}
-          <button
-            onClick={handleToggleMute}
-            title={isMuted ? "Sora (Muted)" : "Sora Angklung"}
-            className="bamboo-card w-10 h-10 rounded-xl flex items-center justify-center text-amber-200 hover:border-amber-400/50 transition cursor-pointer"
-          >
-            {isMuted ? (
-              <svg className="w-5 h-5 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <line x1="23" y1="9" x2="17" y2="15"></line>
-                <line x1="17" y1="9" x2="23" y2="15"></line>
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-              </svg>
-            )}
-          </button>
+          {/* Controls */}
+          <div className="flex items-center gap-2">
+            {/* Keyboard Toggle */}
+            <button
+              onClick={handleToggleKeyboard}
+              title={showVirtualKeyboard ? "Paké Keyboard Fisik" : "Paké Keyboard Layar"}
+              className="bamboo-card w-10 h-10 rounded-xl flex items-center justify-center text-amber-200 hover:border-amber-400/50 transition cursor-pointer"
+            >
+              {showVirtualKeyboard ? (
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                  <line x1="6" y1="10" x2="6.01" y2="10"></line>
+                  <line x1="10" y1="10" x2="10.01" y2="10"></line>
+                  <line x1="14" y1="10" x2="14.01" y2="10"></line>
+                  <line x1="18" y1="10" x2="18.01" y2="10"></line>
+                  <line x1="6" y1="14" x2="14" y2="14"></line>
+                  <line x1="18" y1="14" x2="18.01" y2="14"></line>
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-amber-200/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                  <line x1="6" y1="10" x2="6.01" y2="10" strokeOpacity="0.3"></line>
+                  <line x1="10" y1="10" x2="10.01" y2="10" strokeOpacity="0.3"></line>
+                  <line x1="14" y1="10" x2="14.01" y2="10" strokeOpacity="0.3"></line>
+                  <line x1="18" y1="10" x2="18.01" y2="10" strokeOpacity="0.3"></line>
+                  <line x1="6" y1="14" x2="14" y2="14" strokeOpacity="0.3"></line>
+                  <line x1="18" y1="14" x2="18.01" y2="14" strokeOpacity="0.3"></line>
+                </svg>
+              )}
+            </button>
+
+            {/* Sound Toggle */}
+            <button
+              onClick={handleToggleMute}
+              title={isMuted ? "Sora (Muted)" : "Sora Angklung"}
+              className="bamboo-card w-10 h-10 rounded-xl flex items-center justify-center text-amber-200 hover:border-amber-400/50 transition cursor-pointer"
+            >
+              {isMuted ? (
+                <svg className="w-5 h-5 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <line x1="23" y1="9" x2="17" y2="15"></line>
+                  <line x1="17" y1="9" x2="23" y2="15"></line>
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </header>
